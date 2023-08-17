@@ -230,37 +230,30 @@ class _StickyHeadersTableState extends State<StickyHeadersTable> {
             /// STICKY ROW
             Expanded(
               child: NotificationListener<ScrollNotification>(
-                child: Scrollbar(
-                  // Key is required to avoid 'The Scrollbar's ScrollController has no ScrollPosition attached.
-                  key: Key('Row ${widget.showVerticalScrollbar}'),
-                  thumbVisibility: widget.showVerticalScrollbar ?? false,
-                  controller:
-                      widget.scrollControllers.horizontalTitleController,
-                  child: SingleChildScrollView(
-                    reverse: widget.tableDirection == TextDirection.rtl,
-                    physics: widget.scrollPhysics.stickyRow,
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      textDirection: widget.tableDirection,
-                      children: List.generate(
-                        widget.columnsLength,
-                        (i) => GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () => widget.onColumnTitlePressed(i),
-                          child: Container(
-                            key: globalRowTitleKeys[i] ??= GlobalKey(),
-                            width: widget.cellDimensions.stickyWidth(i),
-                            height: widget.cellDimensions.stickyLegendHeight,
-                            alignment: widget.cellAlignments.rowAlignment(i),
-                            child: widget.columnsTitleBuilder(i),
-                          ),
+                child: SingleChildScrollView(
+                  reverse: widget.tableDirection == TextDirection.rtl,
+                  physics: widget.scrollPhysics.stickyRow,
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    textDirection: widget.tableDirection,
+                    children: List.generate(
+                      widget.columnsLength,
+                      (i) => GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => widget.onColumnTitlePressed(i),
+                        child: Container(
+                          key: globalRowTitleKeys[i] ??= GlobalKey(),
+                          width: widget.cellDimensions.stickyWidth(i),
+                          height: widget.cellDimensions.stickyLegendHeight,
+                          alignment: widget.cellAlignments.rowAlignment(i),
+                          child: widget.columnsTitleBuilder(i),
                         ),
                       ),
                     ),
-                    controller:
-                        widget.scrollControllers.horizontalTitleController,
                   ),
+                  controller:
+                      widget.scrollControllers.horizontalTitleController,
                 ),
                 onNotification: (notification) =>
                     _onHorizontalScrollingNotification(
